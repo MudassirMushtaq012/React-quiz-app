@@ -3,6 +3,10 @@ import './App.css';
 import React from "react";
 import { useState,useEffect } from 'react';
 import './quiz.css'
+import pass from './result img/pass.gif'
+import fail from './result img/fail.webp'
+
+
 
 function App() {
   const [question,setQuestion] = useState([])
@@ -38,7 +42,7 @@ function App() {
       setCurrentindex(currentIndex + 1)
       setTimer(14)
     }
-    else if(timer < 1 && currentIndex == 9){
+    else if(currentIndex >= 9 && timer < 1){
       quizResultS()
     }
   }
@@ -84,7 +88,9 @@ function App() {
   // console.log(arr);
 
   if(!question.length){
-    return <h1>Loading...</h1>
+     return <div className='loader'>
+      <h1><img width={'100px'} src="https://i.gifer.com/ZZ5H.gif" alt="#" /></h1>
+    </div>
   }
 
 
@@ -133,15 +139,15 @@ function App() {
 
   return (
     <>
-
-    <div className='quiz-navbar'>
-      <h1>Quiz App</h1>
-      <h1 className='h1timer' style={timerColor}>{timer}</h1>
-    </div>
-
-
-
      <div className='maindiv' style={quiz}>
+
+      <div className='quiz-navbar'>
+        <h1>Quiz App</h1>
+        <h1 className='h1timer' style={timerColor}>{timer}</h1>
+      </div>
+
+
+       <div className='center-div'>
        <h3 className='h3'>{currentIndex + 1}.{question[currentIndex].question.text}</h3>
        {question[currentIndex].options.map(function(data,i){
          return <div key={i}>
@@ -151,12 +157,33 @@ function App() {
        })}
        <br/>
        <button className='nextbtn' disabled={btnDisabled} onClick={next}>{currentIndex == 9 ? 'Submit' : 'Next'}</button>
+       </div>
+     
      </div>
 
 
      <div style={quizResult} className='result'>
-       <h1>{score}0%</h1>
-       <button onClick={restart}>Restart</button>
+
+        <div className='result-navbar'>
+          <h1>Quiz Result</h1>
+        </div>
+
+        <div className='gif'>
+            {score >= 6 ? <img width={300} src={pass} alt="" /> : <img width={300} src={fail} alt="" />}
+          </div>
+
+        <div className='pass-fail'>
+          {score >= 6 ? <h3 className='pass'>Congratulation You Pass</h3> : <h3 className='fail'>Sorry! You Fail.</h3>}
+        </div>
+
+        <div className='resultdiv'>
+          <h1>{score}0%</h1>
+        </div>
+
+        <div className='restartdiv'>
+          <button className='restartbtn' onClick={restart}>Restart</button>
+        </div>
+
      </div>
     </>
   );
